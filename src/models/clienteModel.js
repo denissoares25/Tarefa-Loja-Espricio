@@ -24,6 +24,7 @@ const clienteModel = {
     },
 
 
+
     inserirCliente: async (nomeCliente, cpfCliente) => {
         try {
 
@@ -37,8 +38,8 @@ const clienteModel = {
 
             await pool.request()
                 .input("nomeCliente", sql.VarChar(100), nomeCliente)
-                .input("cpfCliente", sql.VarChar(11), cpfCliente)
-                .query(querySQL);
+                .input("cpfCliente", sql.Char(11), cpfCliente)
+                    .query(querySQL);
 
         } catch (error) {
 

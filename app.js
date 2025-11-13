@@ -6,7 +6,8 @@ const {clienteRoutes} = require("./src/routes/clienteRoutes");
 const PORT = 8081;
 
 app.use(express.json());
-app.use('/', produtoRoutes,clienteRoutes);
+app.use('/', produtoRoutes);
+app.use('/', clienteRoutes);
 
 app.listen(PORT, ()=>{
     console.log(`SERVIDOR RODANDO EM http://localhost:${PORT}`);

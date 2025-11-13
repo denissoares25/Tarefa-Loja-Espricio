@@ -20,7 +20,7 @@ const produtoController = {
             const { idProduto } = req.query;
 
             if(idProduto) {
-                if(idProduto.length != 36){
+                if(idProduto.length != 36){//validando a id
                     return res.status(400).json({erro: "ID DO PRODUTO INVÁLIDO"});
                 }
                 const produto = await produtoModel.buscarUm(idProduto);
