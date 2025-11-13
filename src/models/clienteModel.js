@@ -22,6 +22,31 @@ const clienteModel = {
         }
 
     },
+// rever 
+        buscarPorCpf: async (cpfCliente) => {
+        try {
+            const pool = await getConnection();
+
+
+            const querySQL = `
+                        SELECT TOP 1 * FROM Clientes 
+                        WHERE cpfCliente = @cpfCliente
+                        `;
+
+            const result = await pool.request()
+
+                .input("cpfCliente", sql.Char(11), cpfCliente)
+                .query(querySQL);
+
+           
+            return result.recordset[0];
+
+        } catch (error) {
+            console.error("ERRO AO BUSCAR CLIENTE POR CPF: ", error);
+            throw error;
+        }
+    },
+
 
 
 

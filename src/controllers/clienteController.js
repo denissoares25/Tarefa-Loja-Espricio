@@ -34,6 +34,13 @@ criarCliente: async (req, res) => {
             if (nomeCliente == undefined || nomeCliente.trim() == "" || cpfCliente == undefined || isNaN(cpfCliente)) {
                 return res.status(400).json({ error: "Campos não obrigatorios não preenchidos" });
             }
+            const clienteExistente = await clienteModel.buscarPorCpf(cpfCliente);
+
+// aqui vc tem rever
+            if (clienteExistente) {
+
+                return res.status(409).json({ error: "CPF já cadastrado no sistema." });
+            }
 
             await clienteModel.inserirCliente(nomeCliente, cpfCliente);
             res.status(201).json({ message: "Cliente cadastrado com sucesso!" });
