@@ -4,6 +4,10 @@ const { produtoController } = require("../controllers/produtoController");
 
 router.get("/produtos", produtoController.listarProduto);
 
-router.post("/produtos", produtoController.criarProduto)
+router.post("/produtos", produtoController.criarProduto);
 
+router.put("/produtos/:idProduto", produtoController.atualizarProduto);
+
+router.delete("/produtos/:idProduto", produtoController.deletarProduto);
+    
 module.exports = { produtoRoutes: router }; 

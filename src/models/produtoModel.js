@@ -16,8 +16,7 @@ const produtoModel = {
 
             const querySQL = 'SELECT * FROM Produtos';
 
-            const result = await pool.request()
-                .query(querySQL);
+            const result = await pool.request().query(querySQL);
             
             return result.recordset;
 
@@ -52,7 +51,40 @@ const produtoModel = {
         }
     },
 
+        /**
+     * Atualiza um produto no banco de dados.
+     * 
+     * @async
+     * @function atualizarProduto
+     * @param {string} idProduto - Id do produto em UUID no banco de dados.
+     * @param {string} nomeProduto - Nome do produto a ser atualizado.
+     * @param {number} precoProduto - Preço do produto a ser atualizado.
+     * @returns {Promise<void>} Não retorna nada, apenas executa a atualização.
+     * @throws Mostra no console e propaga o erro caso a atualização falhe.
+     */
 
+    atualizarProduto: async (idProduto, nomeProduto, precoProduto) => {
+        try {
+            const pool = await getConnection();
+
+            const querySQL = `
+                UPDATE Produtos
+                SET nomeProduto = @nomeProduto,
+                    precoProduto = @precoProduto
+                WHERE idProduto = @idProduto
+            `;
+
+            await pool.request()
+                .input('idProduto', sql.UniqueIdentifier, idProduto)
+                .input('nomeProduto', sql.VarChar(100), nomeProduto)
+                .input('precoProduto', sql.Decimal(10, 2), precoProduto)
+                .query(querySQL);
+
+        } catch (error) {
+            console.error("Erro ao atualizar o produto:", error);
+            throw error;
+        }
+    },
 /**
  * insere um novo produto no banco de dados.
  * @async
@@ -83,9 +115,36 @@ const produtoModel = {
             throw error;
         }
         
+    },
+
+    /**
+     * Deleta um produto no banco de dados.
+     * 
+     * @async
+     * @function deletarProduto
+     * @param {string} idProduto - Id do produto em UID no banco de dados.
+     * @returns {Promise<void>} Não retorna nada, apenas executa a exclusão.
+     * @throws Mostra no console e propaga o erro caso a exclusão falhe.
+    */
+    deletarProduto: async (idProduto) => {
+        try {
+
+            const pool = await getConnection();
+
+            const querySQL = `
+                DELETE FROM Produtos
+                WHERE idProduto = @idProduto
+            `;
+
+            await pool.request()
+                .input('idProduto', sql.UniqueIdentifier, idProduto)
+                .query(querySQL);
+
+        } catch (error) {
+            console.error("Erro ao deletar o produto:", error);
+            throw error;
+        }
     }
-
 };
-
 
 module.exports = {produtoModel}; //ja coloque antes que esqueça 
